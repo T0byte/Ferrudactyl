@@ -4,13 +4,13 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2024-12-27T23:07:26+01:00",
+    "exported_at": "2024-12-27T23:26:02+01:00",
     "name": "FerrumC",
     "author": "t0byte.mc@gmail.com",
     "description": "This is the Ferrumc variant of Minecraft Servers made from scratch in Rust.",
     "features": null,
     "docker_images": {
-        "latest": "ghcr.io\/t0byte\/ferrudactyl:latest"
+        "Alpine": "ghcr.io\/pterodactyl\/yolks:alpine"
     },
     "file_denylist": [],
     "startup": ".\/FerrumC",
@@ -22,7 +22,7 @@
     },
     "scripts": {
         "installation": {
-            "script": "RUSTFLAGS=\"-C target-feature=-crt-static -C target-cpu=native\"\r\n\r\necho \"Installing dependencies\"\r\napk add --no-cache git musl-dev\r\n\r\necho \"Cloning latest ferrumc\"\r\nmkdir -p \/mnt\/server\r\ncd \/mnt\/server\r\ngit clone https:\/\/github.com\/ferrumc-rs\/ferrumc.git\r\n\r\necho \"Compiling pumpkin binary!\"\r\ncd ferrumc\/\r\ncargo build --release --jobs ${JOB_COUNT} # do not increase this job count, counterintuitively this increase compile times (and possibly deadlocks!!!)\r\ncp target\/release\/ferrumc .\/ferrumc.release\r\nstrip .\/ferrum.release\r\n\r\necho \"Copying executable to server directory.\"\r\ncp .\/ferrumc.release \/mnt\/server\/FerrumC\r\n\r\necho \"Cleaning up build directory.\"\r\nrm -rf \/mnt\/server\/ferrumc\r\n\r\necho \"Ensuring execute permissions on executable.\"\r\nchmod +x \/mnt\/server\/FerrumC\r\n\r\necho \"Installation complete!\"",
+            "script": "RUSTFLAGS=\"-C target-feature=-crt-static -C target-cpu=native\"\r\n\r\necho \"Installing dependencies\"\r\napk add --no-cache git musl-dev\r\n\r\necho \"Cloning latest ferrumc\"\r\nmkdir -p \/mnt\/server\r\ncd \/mnt\/server\r\ngit clone https:\/\/github.com\/ferrumc-rs\/ferrumc.git\r\n\r\necho \"Compiling ferrumc binary!\"\r\ncd ferrumc\/\r\ncargo build --release --jobs ${JOB_COUNT} # do not increase this job count, counterintuitively this increase compile times (and possibly deadlocks!!!)\r\ncp target\/release\/ferrumc .\/ferrumc.release\r\nstrip .\/ferrum.release\r\n\r\necho \"Copying executable to server directory.\"\r\ncp .\/ferrumc.release \/mnt\/server\/FerrumC\r\n\r\necho \"Cleaning up build directory.\"\r\nrm -rf \/mnt\/server\/ferrumc\r\n\r\necho \"Ensuring execute permissions on executable.\"\r\nchmod +x \/mnt\/server\/FerrumC\r\n\r\necho \"Installation complete!\"",
             "container": "rust:1-alpine3.21",
             "entrypoint": "sh"
         }
